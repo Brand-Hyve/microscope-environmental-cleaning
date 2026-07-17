@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Placeholder from "../components/Placeholder.astro";
+import Check from "../components/Check.astro";
+import AssessmentForm from "../components/AssessmentForm.astro";
+import { site } from "../data/site";
+
+const audiences = [
+  {
+    title: "For Physicians",
+    desc: "Functional, integrative, and environmental medicine practitioners who prescribe mold-avoidance and remediation protocols.",
+    points: ["Protocol-aligned cleaning your patients can complete confidently", "Documented particle-count verification for the chart", "Optional ERMI / HERTSMI-2 / EMMA retest coordination"],
+  },
+  {
+    title: "For Functional Medicine Clinics",
+    desc: "Clinics treating CIRS, Lyme, MCAS, and chronic biotoxin illness who need a trusted environmental partner.",
+    points: ["A reliable referral for the 'clean your home' step", "Consistent, defensible cleaning standards", "Plain-English reports patients understand"],
+  },
+  {
+    title: "For Realtors",
+    desc: "Agents serving health-conscious buyers or listings with a remediation history in Southwest Florida.",
+    points: ["Pre-listing and pre-purchase environmental cleaning", "Post-remediation verification for peace of mind", "Fast, discreet scheduling"],
+  },
+];
+---
+
+<BaseLayout title="For Healthcare Professionals" description="Refer your CIRS, mold-illness, and environmentally sensitive patients to a dual-licensed, data-driven environmental cleaning partner in Southwest Florida.">
+  <section class="bg-gradient-to-b from-spa-50 to-white">
+    <div class="container-x pt-14 pb-12 md:pt-20 md:pb-16 grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> For Healthcare Professionals</span>
+        <h1 class="mt-4 text-4xl md:text-5xl">The cleaning step your protocol depends on.</h1>
+        <p class="mt-5 text-lg text-ink-700 leading-relaxed">
+          You've done the hard diagnostic work. When the plan calls for a home that's genuinely
+          clean, refer with confidence to a dual-licensed partner who cleans to a measurable,
+          documented standard — and speaks your patients' language.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href="#refer" class="btn btn-primary">Refer a patient</a>
+          <a href={site.phoneHref} class="btn btn-secondary">Call {site.phone}</a>
+        </div>
+      </div>
+      <div>
+        <Placeholder shot="Particle-count verification report / clinician handoff" ratio="4/3" />
+      </div>
+    </div>
+  </section>
+
+  <section class="container-x py-14 md:py-20">
+    <div class="grid lg:grid-cols-3 gap-6">
+      {audiences.map((a) => (
+        <div class="card p-7 flex flex-col">
+          <h2 class="text-xl">{a.title}</h2>
+          <p class="mt-2 text-ink-600 leading-relaxed">{a.desc}</p>
+          <ul class="mt-5 space-y-2.5">
+            {a.points.map((p) => (
+              <li class="flex items-start gap-2.5 text-sm text-ink-800"><span class="mt-0.5"><Check /></span> {p}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-ink-900 text-white">
+    <div class="container-x py-14 md:py-20">
+      <div class="max-w-3xl">
+        <h2 class="text-white text-3xl md:text-4xl">Why referral partners trust us</h2>
+        <div class="mt-8 grid sm:grid-cols-2 gap-x-10 gap-y-5">
+          {["Dual-licensed assessor and remediator", "Real-time 0.3-micron particle-count verification", "Chemical-free, protocol-aligned methods", "Documentation suitable for the patient record", "Whole-home fine-particulate standard", "Serving affluent communities across SWFL"].map((p) => (
+            <div class="flex items-start gap-3"><span class="mt-0.5"><Check class="text-spa-300" /></span> <span class="text-spa-100">{p}</span></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="refer" class="container-x py-14 md:py-20">
+    <div class="grid lg:grid-cols-2 gap-12 items-start">
+      <div>
+        <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Referral</span>
+        <h2 class="mt-4 text-3xl md:text-4xl">Send us a referral.</h2>
+        <p class="mt-4 text-lg text-ink-700 leading-relaxed">
+          Share your patient's details (with their consent) or your own — we'll reach out to
+          coordinate directly and keep you informed. Prefer a call? Reach us at
+          <a href={site.phoneHref} class="font-semibold text-brand-700"> {site.phone}</a>.
+        </p>
+        <p class="mt-4 text-sm text-ink-500">
+          Building a referral relationship for your clinic? Mention it in the form and we'll set up
+          a proper intro and shareable materials for your team.
+        </p>
+      </div>
+      <div class="card p-6 md:p-8">
+        <AssessmentForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+// On-brand placeholder that clearly signals a real photo goes here.
+// Every instance carries a `shot` label matching the photo shot list deliverable.
+interface Props {
+  shot: string;
+  ratio?: string; // e.g. "16/9", "4/3", "1/1"
+  rounded?: string;
+  class?: string;
+}
+const { shot, ratio = "16/9", rounded = "1.25rem", class: cls = "" } = Astro.props;
+---
+<div
+  class:list={["ph-image w-full", cls]}
+  style={`aspect-ratio:${ratio}; border-radius:${rounded};`}
+  role="img"
+  aria-label={`Placeholder for photo: ${shot}`}
+>
+  <span class="ph-label">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:4px"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m21 15-4-4-8 8"/></svg>
+    Photo: {shot}
+  </span>
+</div>

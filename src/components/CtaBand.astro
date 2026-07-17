@@ -1,0 +1,23 @@
+---
+import { site } from "../data/site";
+interface Props {
+  heading?: string;
+  sub?: string;
+}
+const {
+  heading = "Ready for a home that supports your recovery?",
+  sub = "Request an assessment and we'll help you understand exactly what's in your environment — and what it takes to make it genuinely clean.",
+} = Astro.props;
+---
+<section class="bg-spa-800 text-white">
+  <div class="container-x py-16 md:py-20">
+    <div class="max-w-3xl">
+      <h2 class="text-3xl md:text-4xl text-white">{heading}</h2>
+      <p class="mt-4 text-lg text-spa-100 leading-relaxed">{sub}</p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-3">
+        <a href="/contact/" class="btn btn-primary">Request an Assessment</a>
+        <a href={site.phoneHref} class="btn btn-secondary">Call {site.phone}</a>
+      </div>
+    </div>
+  </div>
+</section>

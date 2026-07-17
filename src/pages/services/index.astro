@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import Arrow from "../../components/Arrow.astro";
+import { services } from "../../data/site";
+
+const premium = services.filter((s) => s.category === "premium");
+const restoration = services.filter((s) => s.category === "restoration");
+---
+
+<BaseLayout title="Services" description="Environmental cleaning and restoration services for Southwest Florida — from CIRS and ERMI cleaning to particle-count verification, plus licensed mold remediation and water damage restoration.">
+  <section class="bg-gradient-to-b from-spa-50 to-white">
+    <div class="container-x pt-14 pb-12 md:pt-20 md:pb-16 max-w-3xl">
+      <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Services</span>
+      <h1 class="mt-4 text-4xl md:text-5xl">Two standards of clean. One that heals.</h1>
+      <p class="mt-5 text-lg text-ink-700 leading-relaxed">
+        We lead with environmental cleaning designed for sensitive and recovering occupants — and back
+        it with full licensed restoration when you need it. Every service is verified, documented, and
+        held to the same fine-particulate standard.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-x py-14 md:py-20">
+    <h2 class="text-2xl md:text-3xl">Environmental Cleaning</h2>
+    <p class="mt-2 text-ink-600 max-w-2xl">For CIRS, mold-illness, and health-sensitive occupants — often on a physician-directed protocol.</p>
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {premium.map((s) => (
+        <a href={`/services/${s.slug}/`} class="card card-hover p-6 flex flex-col">
+          <h3 class="text-xl">{s.title}</h3>
+          <p class="mt-2 text-sm text-ink-600 leading-relaxed flex-1">{s.short}</p>
+          <span class="mt-4 text-sm font-semibold text-brand-700 inline-flex items-center gap-1">Learn more <Arrow /></span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-ink-50 border-y border-ink-100">
+    <div class="container-x py-14 md:py-20">
+      <h2 class="text-2xl md:text-3xl">Restoration &amp; Remediation</h2>
+      <p class="mt-2 text-ink-600 max-w-2xl">Licensed removal and emergency recovery — with insurance-ready documentation and 24/7 response.</p>
+      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {restoration.map((s) => (
+          <a href={`/services/${s.slug}/`} class="card card-hover p-6 flex flex-col bg-white">
+            <h3 class="text-xl">{s.title}</h3>
+            <p class="mt-2 text-sm text-ink-600 leading-relaxed flex-1">{s.short}</p>
+            <span class="mt-4 text-sm font-semibold text-brand-700 inline-flex items-center gap-1">Learn more <Arrow /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import Arrow from "../../components/Arrow.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const dateFmt = (d: Date) => d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+// Upcoming topics from the content plan — shown as a roadmap, not links.
+const upcoming = [
+  "What is HERTSMI-2?",
+  "Why visible mold isn't the whole problem",
+  "Why dust matters after remediation",
+  "How HEPA vacuuming actually works",
+  "Air scrubbers vs. true environmental cleaning",
+  "Can a clean home still fail ERMI?",
+  "Preparing your home after mold remediation",
+  "Why CIRS patients need a different standard of cleaning",
+];
+---
+
+<BaseLayout title="Blog" description="Education on CIRS, ERMI, HERTSMI-2, particle counting, and what genuinely clean means — from Southwest Florida's environmental cleaning specialists.">
+  <section class="bg-gradient-to-b from-spa-50 to-white">
+    <div class="container-x pt-14 pb-12 md:pt-20 md:pb-16 max-w-3xl">
+      <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Blog</span>
+      <h1 class="mt-4 text-4xl md:text-5xl">Understanding your environment.</h1>
+      <p class="mt-5 text-lg text-ink-700 leading-relaxed">
+        Clear, honest education on mold, biotoxins, testing, and what it really takes to make a home
+        safe for sensitive occupants — no fear, no jargon.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-x py-14 md:py-20">
+    <div class="grid md:grid-cols-2 gap-6">
+      {posts.map((post) => (
+        <a href={`/blog/${post.id}/`} class="card card-hover p-7 flex flex-col">
+          <span class="text-xs font-semibold uppercase tracking-wider text-spa-700">{post.data.category}</span>
+          <h2 class="mt-3 text-2xl leading-snug">{post.data.title}</h2>
+          <p class="mt-3 text-ink-600 leading-relaxed flex-1">{post.data.description}</p>
+          <div class="mt-5 flex items-center justify-between">
+            <span class="text-sm text-ink-500">{dateFmt(post.data.pubDate)}</span>
+            <span class="text-sm font-semibold text-brand-700 inline-flex items-center gap-1">Read <Arrow /></span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-14 rounded-3xl border border-ink-100 bg-ink-50 p-8 md:p-10">
+      <h2 class="text-2xl">More guides on the way</h2>
+      <p class="mt-2 text-ink-600">We're publishing a full library of plain-English education. Coming soon:</p>
+      <ul class="mt-5 flex flex-wrap gap-2">
+        {upcoming.map((t) => (
+          <li class="rounded-full bg-white border border-ink-200 px-4 py-2 text-sm text-ink-600">{t}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

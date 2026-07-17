@@ -1,0 +1,64 @@
+---
+import { site, services, serviceAreas } from "../data/site";
+const premium = services.filter((s) => s.category === "premium");
+const restoration = services.filter((s) => s.category === "restoration");
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-ink-900 text-ink-200">
+  <div class="container-x py-14">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <div class="flex items-center gap-2.5 mb-4">
+          <img src="/logo.svg" alt="" width="40" height="40" class="h-10 w-10 object-contain bg-white rounded-lg p-1" />
+          <span class="font-serif text-white text-lg font-semibold">Microscope</span>
+        </div>
+        <p class="text-sm text-ink-300 leading-relaxed">
+          Southwest Florida's environmental cleaning specialists — cleaning homes to the standard
+          sensitive and recovering occupants actually need.
+        </p>
+        <div class="mt-5 flex flex-wrap gap-2 text-[0.7rem] font-semibold">
+          <span class="rounded-full bg-white/10 px-3 py-1">{site.licenses.assessor}</span>
+          <span class="rounded-full bg-white/10 px-3 py-1">{site.licenses.remediator}</span>
+          <span class="rounded-full bg-white/10 px-3 py-1">{site.licenses.iicrc}</span>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="text-white text-sm font-semibold uppercase tracking-wider mb-4">Environmental Services</h4>
+        <ul class="space-y-2 text-sm">
+          {premium.map((s) => (
+            <li><a href={`/services/${s.slug}/`} class="text-ink-300 hover:text-white">{s.title}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white text-sm font-semibold uppercase tracking-wider mb-4">Restoration</h4>
+        <ul class="space-y-2 text-sm">
+          {restoration.map((s) => (
+            <li><a href={`/services/${s.slug}/`} class="text-ink-300 hover:text-white">{s.title}</a></li>
+          ))}
+          <li class="pt-1"><a href="/healthcare-professionals/" class="text-ink-300 hover:text-white">For Healthcare Professionals</a></li>
+          <li><a href="/blog/" class="text-ink-300 hover:text-white">Blog</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white text-sm font-semibold uppercase tracking-wider mb-4">Contact</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href={site.phoneHref} class="text-white font-semibold text-base hover:text-spa-200">{site.phone}</a></li>
+          <li class="text-ink-300">{site.city}</li>
+          <li class="text-ink-300">{site.emergency}</li>
+        </ul>
+        <a href="/contact/" class="btn btn-primary mt-5 w-full">Request an Assessment</a>
+        <p class="mt-5 text-xs text-ink-400">Serving {serviceAreas.length} counties across {site.serviceRegion}.</p>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-ink-400">
+      <p>&copy; {year} {site.name}. Formerly {site.legalName}.</p>
+      <p>Florida Licensed Mold Assessor &amp; Remediator · {site.licenses.iicrc}</p>
+    </div>
+  </div>
+</footer>

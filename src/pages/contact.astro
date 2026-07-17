@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AssessmentForm from "../components/AssessmentForm.astro";
+import Check from "../components/Check.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout title="Request an Assessment" description="Request an environmental cleaning assessment in Southwest Florida. Call (239) 565-6557 or send a request — we respond to every inquiry personally.">
+  <section class="bg-gradient-to-b from-spa-50 to-white">
+    <div class="container-x pt-14 pb-10 md:pt-20 md:pb-12 max-w-3xl">
+      <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Contact</span>
+      <h1 class="mt-4 text-4xl md:text-5xl">Request an assessment.</h1>
+      <p class="mt-5 text-lg text-ink-700 leading-relaxed">
+        Tell us a little about your home and your situation. Whether you're on a physician protocol,
+        dealing with an elevated ERMI, or recovering from water damage, we'll help you understand
+        what's really in your environment — and what it takes to make it genuinely clean.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-x pb-16 md:pb-24">
+    <div class="grid lg:grid-cols-[1fr_1.3fr] gap-10">
+      <!-- Contact rail -->
+      <div class="space-y-6">
+        <div class="card p-7">
+          <h2 class="text-xl">Talk to us directly</h2>
+          <a href={site.phoneHref} class="mt-3 block font-serif text-3xl text-brand-700 hover:text-brand-800">{site.phone}</a>
+          <p class="mt-2 text-ink-600">{site.city} · Serving {site.serviceRegion}</p>
+          <div class="mt-5 space-y-2.5 text-sm text-ink-700">
+            <p class="flex items-center gap-2.5"><Check /> {site.emergency}</p>
+            <p class="flex items-center gap-2.5"><Check /> Insurance documentation provided</p>
+            <p class="flex items-center gap-2.5"><Check /> We respond to every request personally</p>
+          </div>
+        </div>
+        <div class="card p-7">
+          <h2 class="text-xl">Florida licensed</h2>
+          <ul class="mt-3 space-y-1.5 text-ink-700 text-sm">
+            <li>Mold Assessor — {site.licenses.assessor}</li>
+            <li>Mold Remediator — {site.licenses.remediator}</li>
+            <li>{site.licenses.iicrc}</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-spa-200 bg-spa-50 p-6">
+          <p class="text-sm text-ink-700 leading-relaxed">
+            <strong class="text-ink-900">Have lab reports or a physician order?</strong> Bring them along —
+            ERMI, HERTSMI-2, or EMMA results and any protocol notes help us tailor the work precisely.
+          </p>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="card p-6 md:p-8">
+        <h2 class="text-2xl">Send your request</h2>
+        <p class="mt-1 text-ink-600">Fields marked required help us respond faster.</p>
+        <div class="mt-6">
+          <AssessmentForm />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

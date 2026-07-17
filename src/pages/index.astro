@@ -1,0 +1,207 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Placeholder from "../components/Placeholder.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Check from "../components/Check.astro";
+import Arrow from "../components/Arrow.astro";
+import Badge from "../components/Badge.astro";
+import { site, services, process, serviceAreas } from "../data/site";
+
+const premium = services.filter((s) => s.category === "premium");
+const restoration = services.filter((s) => s.category === "restoration");
+---
+
+<BaseLayout>
+  <!-- HERO -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-spa-50 to-white">
+    <div class="container-x pt-14 pb-16 md:pt-20 md:pb-24 grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="eyebrow">
+          <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+          Southwest Florida · Clinical Environmental Cleaning
+        </span>
+        <h1 class="mt-5 text-4xl md:text-5xl lg:text-[3.4rem] leading-[1.05]">
+          A home clean enough<br class="hidden sm:block" /> to <span class="text-brand-600">heal</span> in.
+        </h1>
+        <p class="mt-6 text-lg text-ink-700 leading-relaxed max-w-xl">
+          Standard remediation removes the mold you can see. We remove the microscopic contaminants
+          you can't — the settled dust, spore fragments, and biofilm that keep sensitive occupants
+          sick — and we <strong class="text-ink-900">verify it with 0.3-micron particle counting.</strong>
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href="/contact/" class="btn btn-primary">Request an Assessment</a>
+          <a href={site.phoneHref} class="btn btn-secondary">Call {site.phone}</a>
+        </div>
+        <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-600">
+          <span class="inline-flex items-center gap-1.5"><Check /> Dual-licensed assessor &amp; remediator</span>
+          <span class="inline-flex items-center gap-1.5"><Check /> Data-verified results</span>
+          <span class="inline-flex items-center gap-1.5"><Check /> Physician-protocol aligned</span>
+        </div>
+      </div>
+      <div class="relative">
+        <Placeholder shot="Technician in containment performing HEPA air wash" ratio="4/3" />
+        <div class="hidden sm:block absolute -bottom-6 -left-6 card p-4 w-52">
+          <p class="text-xs font-semibold uppercase tracking-wider text-spa-700">Particle count</p>
+          <p class="mt-1 font-serif text-2xl text-ink-900">0.3&micro;m verified</p>
+          <p class="text-xs text-ink-500 mt-1">Real-time proof, not guesswork.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <section class="border-y border-ink-100 bg-white">
+    <div class="container-x py-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-center">
+      <span class="text-sm font-semibold text-ink-500 uppercase tracking-wider">Florida Licensed</span>
+      <Badge>{site.licenses.assessor}</Badge>
+      <Badge>{site.licenses.remediator}</Badge>
+      <Badge>{site.licenses.iicrc}</Badge>
+      <Badge>{site.emergency}</Badge>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section class="container-x py-16 md:py-24">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="order-2 lg:order-1">
+        <Placeholder shot="Split view: visibly clean room vs. particle-count reading" ratio="4/3" />
+      </div>
+      <div class="order-1 lg:order-2">
+        <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Why "clean" isn't clean enough</span>
+        <h2 class="mt-4 text-3xl md:text-4xl">Visible mold is a fraction of the problem.</h2>
+        <p class="mt-5 text-lg text-ink-700 leading-relaxed">
+          For someone with CIRS, biotoxin illness, or chemical sensitivity, a home can look spotless
+          and still make them sick. The real burden is microscopic and everywhere:
+        </p>
+        <ul class="mt-6 grid sm:grid-cols-2 gap-3">
+          {["Settled dust", "Fragmented spores", "Hyphal fragments", "Biofilm", "Construction dust", "Microbial fragments", "Allergens", "Mycotoxins"].map((item) => (
+            <li class="flex items-center gap-2.5 text-ink-800"><Check /> {item}</li>
+          ))}
+        </ul>
+        <p class="mt-6 text-ink-700 leading-relaxed">
+          We clean the whole home to a fine-particulate standard — then prove the result with data.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREMIUM SERVICES -->
+  <section class="bg-spa-50 border-y border-spa-100">
+    <div class="container-x py-16 md:py-24">
+      <div class="max-w-2xl">
+        <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Environmental Services</span>
+        <h2 class="mt-4 text-3xl md:text-4xl">Cleaning built around your health.</h2>
+        <p class="mt-4 text-lg text-ink-700">Specialized services for sensitive and recovering occupants — often on a physician-directed protocol.</p>
+      </div>
+      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {premium.map((s) => (
+          <a href={`/services/${s.slug}/`} class="card card-hover p-6 flex flex-col">
+            <h3 class="text-xl">{s.title}</h3>
+            <p class="mt-2 text-ink-600 text-sm leading-relaxed flex-1">{s.short}</p>
+            <span class="mt-4 text-sm font-semibold text-brand-700 inline-flex items-center gap-1">Learn more <Arrow /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="container-x py-16 md:py-24">
+    <div class="max-w-2xl">
+      <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> The Process</span>
+      <h2 class="mt-4 text-3xl md:text-4xl">Eleven steps, one standard.</h2>
+      <p class="mt-4 text-lg text-ink-700">Every home follows the same rigorous, documented process — from first inspection to independent verification.</p>
+    </div>
+    <ol class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
+      {process.map((p) => (
+        <li class="relative pl-14">
+          <span class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full bg-brand-600 text-white font-serif text-sm font-semibold">{p.step}</span>
+          <h3 class="text-lg">{p.title}</h3>
+          <p class="mt-1 text-sm text-ink-600 leading-relaxed">{p.desc}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- VERIFICATION FEATURE -->
+  <section class="bg-ink-900 text-white">
+    <div class="container-x py-16 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="eyebrow text-spa-300"><span class="h-1.5 w-1.5 rounded-full bg-spa-300"></span> Data, not promises</span>
+        <h2 class="mt-4 text-3xl md:text-4xl text-white">We measure the air down to 0.3 microns.</h2>
+        <p class="mt-5 text-lg text-spa-100 leading-relaxed">
+          Most companies tell you the job is done. We show you. Using advanced particle counting,
+          HEPA filtration, and ISO cleanliness references, we verify fine-particulate removal in
+          real time — and can confirm results with ERMI or EMMA dust sampling on request.
+        </p>
+        <a href="/services/post-remediation-verification/" class="btn btn-primary mt-8">See how verification works</a>
+      </div>
+      <div>
+        <Placeholder shot="Close-up of particle counter display showing a reading" ratio="4/3" />
+      </div>
+    </div>
+  </section>
+
+  <!-- RESTORATION (understated) -->
+  <section class="container-x py-16 md:py-20">
+    <div class="rounded-3xl border border-ink-100 bg-ink-50 p-8 md:p-12">
+      <div class="grid md:grid-cols-[1.2fr_1fr] gap-8 items-center">
+        <div>
+          <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-ink-400"></span> Also available</span>
+          <h2 class="mt-3 text-2xl md:text-3xl">Full-service mold &amp; water restoration.</h2>
+          <p class="mt-4 text-ink-700 leading-relaxed">
+            When you need licensed remediation or emergency water and storm recovery, you get the same
+            fine-particulate standard — with {site.emergency.toLowerCase()} and insurance-ready documentation.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {restoration.map((s) => (
+            <a href={`/services/${s.slug}/`} class="rounded-full border border-ink-200 bg-white px-4 py-2 text-sm font-medium text-ink-700 hover:border-spa-300 hover:text-brand-700">{s.title}</a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE AREAS -->
+  <section class="bg-spa-50 border-y border-spa-100">
+    <div class="container-x py-16 md:py-20">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div class="max-w-xl">
+          <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Service Area</span>
+          <h2 class="mt-4 text-3xl md:text-4xl">Serving Southwest Florida.</h2>
+          <p class="mt-4 text-lg text-ink-700">From Sarasota to Naples — including the region's most discerning communities.</p>
+        </div>
+        <a href="/service-areas/" class="btn btn-secondary shrink-0">View all areas</a>
+      </div>
+      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {serviceAreas.map((area) => (
+          <div class="card p-6">
+            <h3 class="text-lg">{area.county}</h3>
+            <p class="mt-2 text-sm text-ink-600 leading-relaxed">{area.places.slice(0, 5).join(" · ")}{area.places.length > 5 ? " · …" : ""}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR PROS -->
+  <section class="container-x py-16 md:py-24">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> For Healthcare Professionals</span>
+        <h2 class="mt-4 text-3xl md:text-4xl">A cleaning partner your patients can trust.</h2>
+        <p class="mt-5 text-lg text-ink-700 leading-relaxed">
+          We work alongside functional and environmental medicine physicians, IEPs, and realtors —
+          delivering the documented, protocol-aligned cleaning that recovery actually depends on.
+        </p>
+        <a href="/healthcare-professionals/" class="btn btn-primary mt-8">Refer a patient</a>
+      </div>
+      <div>
+        <Placeholder shot="Clinician reviewing an environmental report with homeowner" ratio="4/3" />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

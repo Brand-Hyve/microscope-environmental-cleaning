@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+/* ============================================================
+   MICROSCOPE ENVIRONMENTAL CLEANING — DESIGN SYSTEM
+   Brand: Spa Blue #DEF7F9 · Green #3A8713 · White #FFFFFF
+   Extended for accessible contrast + clinical depth.
+   ============================================================ */
+@theme {
+  /* Spa blue scale (brand light) */
+  --color-spa-50: #f3fcfd;
+  --color-spa-100: #def7f9;
+  --color-spa-200: #c2eff3;
+  --color-spa-300: #97e2e9;
+  --color-spa-400: #5fccd6;
+  --color-spa-500: #38b0bd;
+  --color-spa-600: #2b8f9c;
+  --color-spa-700: #27717d;
+  --color-spa-800: #275c66;
+  --color-spa-900: #244d56;
+
+  /* Green scale (brand action) */
+  --color-brand-50: #f2fbec;
+  --color-brand-100: #e0f5d3;
+  --color-brand-200: #c3eaac;
+  --color-brand-300: #9cda7b;
+  --color-brand-400: #74c650;
+  --color-brand-500: #4ea82f;
+  --color-brand-600: #3a8713;  /* brand green */
+  --color-brand-700: #2f6c12;
+  --color-brand-800: #285614;
+  --color-brand-900: #234915;
+
+  /* Ink / neutral (accessible text) */
+  --color-ink-50: #f6f8f8;
+  --color-ink-100: #eceff0;
+  --color-ink-200: #d6dcde;
+  --color-ink-300: #b2bcbf;
+  --color-ink-400: #869599;
+  --color-ink-500: #67777b;
+  --color-ink-600: #516064;
+  --color-ink-700: #434f53;
+  --color-ink-800: #2c363a;   /* body text */
+  --color-ink-900: #1a2226;   /* headings */
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink-800);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  color: var(--color-ink-900);
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+
+/* Focus visibility for accessibility (audience may navigate by keyboard) */
+:focus-visible {
+  outline: 3px solid var(--color-spa-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Reusable component classes */
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x { padding-inline: 2rem; }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: 9999px;
+    padding: 0.95rem 1.6rem;
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+    text-align: center;
+  }
+  .btn-primary {
+    background: var(--color-brand-600);
+    color: #fff;
+    box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--color-brand-600) 70%, transparent);
+  }
+  .btn-primary:hover {
+    background: var(--color-brand-700);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px -10px color-mix(in srgb, var(--color-brand-600) 75%, transparent);
+  }
+  .btn-secondary {
+    background: #fff;
+    color: var(--color-spa-800);
+    border: 1.5px solid var(--color-spa-200);
+  }
+  .btn-secondary:hover {
+    border-color: var(--color-spa-400);
+    background: var(--color-spa-50);
+    transform: translateY(-2px);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-ink-900);
+  }
+  .btn-ghost:hover { color: var(--color-brand-700); }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-spa-700);
+  }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--color-ink-100);
+    border-radius: 1.25rem;
+    box-shadow: 0 1px 2px rgba(26,34,38,.04), 0 12px 30px -22px rgba(26,34,38,.35);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-spa-200);
+    box-shadow: 0 1px 2px rgba(26,34,38,.05), 0 24px 45px -25px rgba(26,34,38,.4);
+  }
+
+  .prose-body p { line-height: 1.75; }
+}
+
+/* Placeholder image treatment — clinical, on-brand, obviously a placeholder */
+.ph-image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(135deg, var(--color-spa-100), var(--color-spa-50) 60%, #fff);
+  color: var(--color-spa-700);
+  overflow: hidden;
+}
+.ph-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--color-spa-500) 22%, transparent) 1px, transparent 1.4px);
+  background-size: 18px 18px;
+  opacity: .5;
+}
+.ph-label {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.8rem;
+  border-radius: 9999px;
+  background: rgba(255,255,255,.75);
+  border: 1px solid var(--color-spa-200);
+  backdrop-filter: blur(2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

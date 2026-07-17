@@ -1,0 +1,78 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Placeholder from "../components/Placeholder.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Check from "../components/Check.astro";
+import Badge from "../components/Badge.astro";
+import { site } from "../data/site";
+
+const advantages = [
+  { title: "Dual-licensed", desc: "We hold both Florida Mold Assessor and Mold Remediator licenses — the assessment and the cleaning under one accountable roof." },
+  { title: "Data-driven", desc: "We own and operate advanced particle-counting equipment, verifying fine-particulate removal in real time." },
+  { title: "Microscopic focus", desc: "We target the invisible burden — fragmented spores, biofilm, and settled dust — not just the mold you can see." },
+  { title: "Proven experience", desc: "A track record of cleaning homes to strict fine-particulate reduction protocols for the most sensitive occupants." },
+];
+---
+
+<BaseLayout title="About" description="Microscope Environmental Cleaning is Southwest Florida's dual-licensed, data-driven environmental cleaning specialist — cleaning homes to the standard mold-sensitive occupants actually need.">
+  <section class="bg-gradient-to-b from-spa-50 to-white">
+    <div class="container-x pt-14 pb-12 md:pt-20 md:pb-16 grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> About Microscope</span>
+        <h1 class="mt-4 text-4xl md:text-5xl">We clean for the people other companies overlook.</h1>
+        <p class="mt-5 text-lg text-ink-700 leading-relaxed">
+          Microscope began as a mold and water damage restoration company. Along the way, we kept
+          meeting people who had done everything right — remediation complete, home looking spotless —
+          and were still sick. That's when we realized the standard the restoration industry calls
+          "clean" isn't clean enough for someone whose health depends on it.
+        </p>
+      </div>
+      <div>
+        <Placeholder shot="Owner / lead technician portrait on the job" ratio="4/3" />
+      </div>
+    </div>
+  </section>
+
+  <section class="container-x py-14 md:py-20 grid lg:grid-cols-2 gap-12 items-center">
+    <div class="order-2 lg:order-1">
+      <Placeholder shot="Team setting up containment in a home" ratio="4/3" />
+    </div>
+    <div class="order-1 lg:order-2 prose-body">
+      <h2 class="text-3xl">Our standard is measured, not assumed.</h2>
+      <p class="mt-5 text-ink-700">
+        Environmental cleaning is a different discipline from restoration. It's built for occupants
+        with CIRS, biotoxin illness, chemical sensitivity, and compromised immune systems — people for
+        whom microscopic contaminants aren't a nuisance but a genuine barrier to healing.
+      </p>
+      <p class="mt-4 text-ink-700">
+        So we clean the entire home to a fine-particulate standard, and we prove the result with
+        real-time particle counting and optional laboratory dust sampling. When we say a home is clean,
+        we can show you the data behind it.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        <Badge>{site.licenses.assessor}</Badge>
+        <Badge>{site.licenses.remediator}</Badge>
+        <Badge>{site.licenses.iicrc}</Badge>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-spa-50 border-y border-spa-100">
+    <div class="container-x py-14 md:py-20">
+      <div class="max-w-2xl">
+        <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Why Microscope</span>
+        <h2 class="mt-4 text-3xl md:text-4xl">What sets our work apart.</h2>
+      </div>
+      <div class="mt-10 grid sm:grid-cols-2 gap-6">
+        {advantages.map((a) => (
+          <div class="card p-7">
+            <div class="flex items-center gap-2 text-brand-700"><Check /> <h3 class="text-xl">{a.title}</h3></div>
+            <p class="mt-3 text-ink-600 leading-relaxed">{a.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand heading="Let's talk about your home." sub="Whether you're mid-protocol or just starting to suspect your environment is holding you back, we'll help you understand what's really there." />
+</BaseLayout>
