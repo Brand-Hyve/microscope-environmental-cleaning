@@ -4,8 +4,9 @@
 //
 // --baseline points at a build of the pre-consolidation commit (cfd1d4d). When
 // given, every text node of each original page must still occur at least as
-// often as before, apart from the removed assessment form and the <title>. Without it the content
-// comparison is reported as SKIPPED and the run fails.
+// often as before, apart from the removed assessment form, the form-era
+// call-site copy listed in PERMITTED_COPY_LOSSES, and the <title>. Without it
+// the content comparison is reported as SKIPPED and the run fails.
 //
 // Intentionally absent: /thank-you/ (there is no form to land from).
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
@@ -49,6 +50,43 @@ const REMOVED_FORM_TEXT = new Set([
   "No / not yet", "How can we help?", "Request my assessment", "Prefer to talk? Call",
   ". We respond to every request personally.",
 ]);
+
+// Call-site copy that described the removed form (amendment v1.1). Only these
+// exact strings may disappear, and only from the listed pages.
+const SERVICE_PAGE = /^\/services\/.+/;
+const PERMITTED_COPY_LOSSES = [
+  [/^\/contact\/$/, "Send your request"],
+  [/^\/contact\/$/, "Fields marked required help us respond faster."],
+  [/^\/healthcare-professionals\/$/, "Send us a referral."],
+  [/^\/healthcare-professionals\/$/, "Share your patient's details (with their consent) or your own — we'll reach out to coordinate directly and keep you informed. Prefer a call? Reach us at"],
+  [/^\/healthcare-professionals\/$/, "Building a referral relationship for your clinic? Mention it in the form and we'll set up a proper intro and shareable materials for your team."],
+  [SERVICE_PAGE, "Request an assessment"],
+  [SERVICE_PAGE, "Tell us about your home. We respond personally."],
+];
+const permittedLoss = (route, node) =>
+  PERMITTED_COPY_LOSSES.some(([re, text]) => re.test(route) && text === node);
+
+// Replacement call-site copy that must be present.
+const REQUIRED_COPY = [
+  [/^\/contact\/$/, "Contact us directly"],
+  [/^\/contact\/$/, "Call or email us to request an assessment."],
+  [/^\/healthcare-professionals\/$/, "Discuss a referral by phone."],
+  [/^\/healthcare-professionals\/$/, "to discuss referral arrangements. Please do not send patient details, medical records, or lab reports through ordinary email."],
+  [/^\/healthcare-professionals\/$/, "Building a referral relationship for your clinic? Call us and we'll set up a proper intro and shareable materials for your team."],
+  [SERVICE_PAGE, "Contact us directly"],
+  [SERVICE_PAGE, "Call or email us to request an assessment. We respond personally."],
+];
+
+// Form-era wording that must not survive on any page.
+const STALE_COPY = [
+  /fields? marked required/i,
+  /mention it in the form/i,
+  /share your patient/i,
+  /send your request/i,
+  /send us a referral/i,
+  /tell us about your home/i,
+  /\b(in|on|fill out|complete|submit) the form\b/i,
+];
 
 // Forbidden in every built text file.
 const FORBIDDEN_ANYWHERE = [
@@ -163,7 +201,12 @@ for (const f of htmlFiles) {
   const robots = attrs(html, /<meta\s+name="robots"\s+content="([^"]*)"/gi);
   indexing.push(`${page}: robots=${robots[0] ?? "(none — indexable)"} canonical=${canon[0]}`);
 
-  if (!flatText(html).includes("(239) 565-6557")) fail(`${page}: visible phone missing`);
+  const pageText = flatText(html);
+  if (!pageText.includes("(239) 565-6557")) fail(`${page}: visible phone missing`);
+  for (const re of STALE_COPY) {
+    const m = pageText.match(re);
+    if (m) fail(`${page}: stale form-era copy (${m[0]})`);
+  }
 }
 if (externalHosts.size) fail(`external resource/link hosts: ${[...externalHosts].join(", ")}`);
 
@@ -182,6 +225,9 @@ for (const r of FORM_ROUTES) {
     if (!text.includes(needle)) fail(`${r}: contact panel text missing: ${needle}`);
   }
   if (!html.includes(`href="${TEL}"`) || !html.includes(`href="${MAILTO}"`)) fail(`${r}: contact panel links missing`);
+  for (const [re, needle] of REQUIRED_COPY) {
+    if (re.test(r) && !text.includes(needle)) fail(`${r}: call-site copy missing: ${needle}`);
+  }
   if (/\b(secure|encrypted|HIPAA|confidential)\b/i.test(text.replace(/not a secure way/gi, ""))) {
     fail(`${r}: wording implies a secure/compliant channel`);
   }
@@ -232,6 +278,7 @@ if (existsSync(join(DIST, "site.webmanifest"))) {
 // 6. Original page content preserved
 let compared = 0;
 const expectedLosses = new Map();
+const permittedLosses = new Map();
 if (!BASELINE) {
   fail("content comparison SKIPPED — pass --baseline <build of cfd1d4d>");
 } else {
@@ -254,8 +301,13 @@ if (!BASELINE) {
     const outsideForm = forms.reduce((html, f) => html.replace(f, () => "<hr>"), baseHtml);
     const before = flatText(outsideForm);
     for (const node of new Set(textNodes(outsideForm))) {
-      if (count(after, node) < count(before, node)) fail(`${r}: original text lost: ${JSON.stringify(node)}`);
+      if (count(after, node) >= count(before, node)) continue;
+      if (permittedLoss(r, node)) permittedLosses.set(node, (permittedLosses.get(node) ?? 0) + 1);
+      else fail(`${r}: original text lost: ${JSON.stringify(node)}`);
     }
+  }
+  for (const [, text] of PERMITTED_COPY_LOSSES) {
+    if (!permittedLosses.has(text)) fail(`permitted loss not observed (stale allowance): ${JSON.stringify(text)}`);
   }
   if (compared !== BASE_ROUTES.length) fail(`compared ${compared}/${BASE_ROUTES.length} original pages`);
 }
@@ -264,6 +316,8 @@ console.log(`HTML files: ${htmlFiles.length} | local refs checked: ${localRefs} 
 console.log(`Original pages compared against baseline: ${compared}/${BASE_ROUTES.length}`);
 console.log(`Expected losses (removed form only): ${expectedLosses.size} distinct strings`);
 for (const [node, n] of expectedLosses) console.log(`  - ${JSON.stringify(node)} x${n}`);
+console.log(`Permitted call-site copy losses (amendment v1.1): ${permittedLosses.size} distinct strings`);
+for (const [node, n] of permittedLosses) console.log(`  - ${JSON.stringify(node)} x${n}`);
 console.log("Indexing / canonical per page:");
 for (const line of indexing.sort()) console.log(`  ${line}`);
 if (failures.length) {
