@@ -223,3 +223,13 @@ export const serviceAreas = [
     places: ["Sarasota", "Lakewood Ranch", "Venice", "Siesta Key", "Longboat Key", "Manasota Key"],
   },
 ];
+
+// Dedicated city pages. `county` must match an entry in `serviceAreas`, which
+// supplies the communities listed on each page. Area data only — no street
+// address, coordinates, ratings, or listing IDs belong here.
+export const cityPages = [
+  { id: "fort-myers-fl", name: "Fort Myers", state: "FL", county: "Lee County", hero: "/images/fort-myers-fl-hero.webp" },
+  { id: "naples-fl", name: "Naples", state: "FL", county: "Collier County", hero: "/images/naples-fl-hero.webp" },
+  { id: "bonita-springs-fl", name: "Bonita Springs", state: "FL", county: "Lee County", hero: "/images/bonita-springs-fl-hero.webp" },
+  { id: "sarasota-fl", name: "Sarasota", state: "FL", county: "Sarasota County", hero: "/images/sarasota-fl-hero.webp" },
+];

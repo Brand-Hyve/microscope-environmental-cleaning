@@ -1,0 +1,16 @@
+{
+  "name": "Microscope Environmental Cleaning",
+  "short_name": "Microscope",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#3a8713",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
