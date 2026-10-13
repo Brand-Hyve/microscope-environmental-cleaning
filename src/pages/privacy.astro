@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  title="Privacy"
+  description={`What this website does and does not collect, and how to reach ${site.name} with questions.`}
+>
+  <section class="bg-gradient-to-b from-spa-50 to-white">
+    <div class="container-x pt-14 pb-10 md:pt-20 md:pb-14 max-w-3xl">
+      <h1 class="text-4xl md:text-5xl">Privacy</h1>
+      <p class="mt-4 text-ink-600">
+        This page describes how this website currently operates. It will be updated if that changes.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-x pb-16 md:pb-24 max-w-3xl space-y-8">
+    <div>
+      <h2 class="text-2xl">What this website collects</h2>
+      <p class="mt-3 text-ink-600 leading-relaxed">
+        This website has no online forms and does not ask you to submit personal information
+        through it. Like most websites, our hosting provider records standard technical logs,
+        such as IP addresses and the pages requested.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl">If you contact us</h2>
+      <p class="mt-3 text-ink-600 leading-relaxed">
+        If you call or email us, we receive whatever you choose to share and use it to respond to
+        you. Ordinary email is not a secure way to send sensitive information, so please do not
+        email medical records, lab reports, or other sensitive health details.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl">Contact</h2>
+      <p class="mt-3 text-ink-600 leading-relaxed">
+        Questions about this page? Call <a href={site.phoneHref} class="text-brand-700 font-semibold">{site.phone}</a>
+        or email <a href={`mailto:${site.email}`} class="text-brand-700 font-semibold">{site.email}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

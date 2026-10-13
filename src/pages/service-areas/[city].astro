@@ -1,0 +1,80 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CtaBand from "../../components/CtaBand.astro";
+import { cityPages, serviceAreas, services, site } from "../../data/site";
+
+export function getStaticPaths() {
+  return cityPages.map((area) => ({
+    params: { city: area.id },
+    props: { area },
+  }));
+}
+
+const { area } = Astro.props;
+const places = serviceAreas.find((a) => a.county === area.county)?.places ?? [];
+---
+
+<BaseLayout
+  title={`Environmental Cleaning in ${area.name}, ${area.state}`}
+  description={`${site.name} serves ${area.name}, ${area.state} and the rest of ${area.county} as part of our ${site.serviceRegion} service area.`}
+>
+  <section class="bg-gradient-to-b from-spa-50 to-white">
+    <div class="container-x pt-12 pb-12 md:pt-16 md:pb-16 grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+        <nav class="text-sm text-ink-500 mb-4" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-brand-700">Home</a>
+          <span class="mx-2">/</span>
+          <a href="/service-areas/" class="hover:text-brand-700">Service Areas</a>
+          <span class="mx-2">/</span>
+          <span class="text-ink-800 font-medium">{area.name}</span>
+        </nav>
+        <span class="eyebrow"><span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span> Service Area</span>
+        <h1 class="mt-4 text-4xl md:text-5xl">Environmental Cleaning in {area.name}, {area.state}.</h1>
+        <p class="mt-5 text-lg text-ink-700 leading-relaxed">
+          {site.name} serves {area.name} and the surrounding {area.county} communities as part of
+          our {site.serviceRegion} service area.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <a href="/contact/" class="btn btn-primary">Request an Assessment</a>
+          <a href={site.phoneHref} class="btn btn-secondary">Call {site.phone}</a>
+        </div>
+      </div>
+
+      <div class="overflow-hidden rounded-2xl border border-spa-100 shadow-md">
+        <img src={area.hero} alt="" width="800" height="450" class="w-full h-auto object-cover aspect-video" />
+      </div>
+    </div>
+  </section>
+
+  <section class="container-x py-14 md:py-20">
+    <div class="grid lg:grid-cols-2 gap-12 items-start">
+      <div>
+        <h2 class="text-3xl md:text-4xl">{area.county} communities we serve</h2>
+        <ul class="mt-6 flex flex-wrap gap-2">
+          {places.map((place) => (
+            <li class="rounded-full bg-spa-50 border border-spa-100 px-3.5 py-1.5 text-sm text-ink-700">{place}</li>
+          ))}
+        </ul>
+        <p class="mt-6">
+          <a href="/service-areas/" class="font-semibold text-brand-700">View all service areas</a>
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-3xl md:text-4xl">Services available in {area.name}</h2>
+        <ul class="mt-6 space-y-3">
+          {services.map((s) => (
+            <li>
+              <a href={`/services/${s.slug}/`} class="card card-hover p-5 block">
+                <span class="block font-semibold text-ink-900">{s.title}</span>
+                <span class="mt-1 block text-sm text-ink-600">{s.short}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

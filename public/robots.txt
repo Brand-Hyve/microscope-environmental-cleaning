@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://microscope-environmental-cleaning.vercel.app/sitemap-index.xml

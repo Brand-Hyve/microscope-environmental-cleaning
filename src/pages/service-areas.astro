@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CtaBand from "../components/CtaBand.astro";
-import { serviceAreas, site } from "../data/site";
+import { cityPages, serviceAreas, site } from "../data/site";
 ---
 
 <BaseLayout title="Service Areas" description="Microscope Environmental Cleaning serves Southwest Florida — Lee, Collier, Charlotte, and Sarasota counties, including Naples, Fort Myers, Sarasota, Bonita Springs, and Marco Island.">
@@ -19,10 +19,25 @@ import { serviceAreas, site } from "../data/site";
   </section>
 
   <section class="container-x py-14 md:py-20">
+    <h2 class="text-3xl mb-8">Featured service areas</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+      {cityPages.map((city) => (
+        <a href={`/service-areas/${city.id}/`} class="card card-hover group overflow-hidden flex flex-col">
+          <img src={city.hero} alt="" width="400" height="225" loading="lazy" class="w-full h-44 object-cover" />
+          <div class="p-5 flex flex-col flex-1">
+            <h3 class="text-xl group-hover:text-brand-700">{city.name}, {city.state}</h3>
+            <p class="mt-1 text-sm text-ink-600 flex-1">{city.county}</p>
+            <span class="mt-4 text-sm font-semibold text-brand-700">View area page &rarr;</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <h2 class="text-3xl mb-8">Counties and communities</h2>
     <div class="grid sm:grid-cols-2 gap-6">
       {serviceAreas.map((area) => (
         <div class="card p-7">
-          <h2 class="text-2xl">{area.county}</h2>
+          <h3 class="text-2xl">{area.county}</h3>
           <ul class="mt-4 flex flex-wrap gap-2">
             {area.places.map((place) => (
               <li class="rounded-full bg-spa-50 border border-spa-100 px-3.5 py-1.5 text-sm text-ink-700">{place}</li>

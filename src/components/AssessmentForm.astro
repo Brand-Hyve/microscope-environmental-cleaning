@@ -1,79 +1,24 @@
 ---
-// Request-an-Assessment form. Uses a Formspree-style action placeholder —
-// swap `action` for the client's real form endpoint (Formspree, Netlify Forms,
-// or a backend) before launch. Includes a mailto fallback note.
+// Static contact panel. Online assessment submission is intentionally
+// unavailable: this component renders no form, no inputs, and no data endpoint.
+// The component name and `compact` prop are kept so existing call sites work.
 import { site } from "../data/site";
 interface Props { compact?: boolean; }
 const { compact = false } = Astro.props;
 ---
-<form
-  action="https://formspree.io/f/REPLACE_WITH_FORM_ID"
-  method="POST"
-  class="grid gap-4"
-  aria-label="Request an assessment"
->
-  <div class="grid gap-4 sm:grid-cols-2">
-    <label class="grid gap-1.5 text-sm font-medium text-ink-800">
-      Full name
-      <input required name="name" type="text" autocomplete="name"
-        class="rounded-xl border border-ink-200 px-4 py-3 text-base font-normal focus:border-spa-400 focus:ring-0" />
-    </label>
-    <label class="grid gap-1.5 text-sm font-medium text-ink-800">
-      Phone
-      <input required name="phone" type="tel" autocomplete="tel"
-        class="rounded-xl border border-ink-200 px-4 py-3 text-base font-normal focus:border-spa-400 focus:ring-0" />
-    </label>
-  </div>
-
-  <div class="grid gap-4 sm:grid-cols-2">
-    <label class="grid gap-1.5 text-sm font-medium text-ink-800">
-      Email
-      <input required name="email" type="email" autocomplete="email"
-        class="rounded-xl border border-ink-200 px-4 py-3 text-base font-normal focus:border-spa-400 focus:ring-0" />
-    </label>
-    <label class="grid gap-1.5 text-sm font-medium text-ink-800">
-      Property city / area
-      <input name="location" type="text" placeholder="e.g. Naples, Sarasota"
-        class="rounded-xl border border-ink-200 px-4 py-3 text-base font-normal focus:border-spa-400 focus:ring-0" />
-    </label>
-  </div>
-
-  {!compact && (
-    <fieldset class="grid gap-2">
-      <legend class="text-sm font-medium text-ink-800 mb-1">What brings you here? (optional)</legend>
-      <div class="flex flex-wrap gap-2">
-        {["CIRS / mold illness", "Physician-directed protocol", "Elevated ERMI / HERTSMI-2", "Post-remediation verification", "Water damage", "Not sure yet"].map((opt) => (
-          <label class="cursor-pointer">
-            <input type="checkbox" name="reason" value={opt} class="peer sr-only" />
-            <span class="inline-block rounded-full border border-ink-200 px-3.5 py-1.5 text-sm text-ink-700 peer-checked:border-brand-500 peer-checked:bg-brand-50 peer-checked:text-brand-700">{opt}</span>
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  )}
-
-  {!compact && (
-    <label class="grid gap-1.5 text-sm font-medium text-ink-800">
-      Do you have lab reports or a physician order? (optional)
-      <select name="documentation" class="rounded-xl border border-ink-200 px-4 py-3 text-base font-normal focus:border-spa-400 focus:ring-0">
-        <option value="">Select one</option>
-        <option>Yes — I have lab reports (ERMI/EMMA/HERTSMI-2)</option>
-        <option>Yes — I have a physician order</option>
-        <option>Both</option>
-        <option>No / not yet</option>
-      </select>
-    </label>
-  )}
-
-  <label class="grid gap-1.5 text-sm font-medium text-ink-800">
-    How can we help?
-    <textarea name="message" rows={compact ? 3 : 4}
-      class="rounded-xl border border-ink-200 px-4 py-3 text-base font-normal focus:border-spa-400 focus:ring-0"
-      placeholder="Tell us a little about your home and your situation."></textarea>
-  </label>
-
-  <button type="submit" class="btn btn-primary w-full sm:w-auto">Request my assessment</button>
-  <p class="text-xs text-ink-500">
-    Prefer to talk? Call <a href={site.phoneHref} class="font-semibold text-brand-700">{site.phone}</a>. We respond to every request personally.
+<div class="grid gap-4" role="group" aria-label="Contact options">
+  <p class:list={["text-ink-800 leading-relaxed", compact ? "text-sm" : "text-base"]}>
+    Online assessment requests are not available on this website. To request an assessment,
+    please call or email us directly.
   </p>
-</form>
+
+  <div class:list={["flex gap-3", compact ? "flex-col" : "flex-col sm:flex-row sm:flex-wrap"]}>
+    <a href={site.phoneHref} class="btn btn-primary">Call {site.phone}</a>
+    <a href={`mailto:${site.email}`} class="btn btn-secondary break-all">Email {site.email}</a>
+  </div>
+
+  <p class="text-xs text-ink-600 leading-relaxed">
+    Please do not send medical records, lab reports, or other sensitive health details by
+    ordinary email. Call us instead to talk through your situation.
+  </p>
+</div>

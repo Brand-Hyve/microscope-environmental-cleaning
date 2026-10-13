@@ -8,16 +8,22 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  noindex?: boolean;
 }
 
 const {
   title,
+  noindex = false,
   description = "Southwest Florida's environmental cleaning specialists. We remove the microscopic contaminants standard remediation leaves behind — verified with 0.3-micron particle counting. For CIRS, mold-illness, and sensitive occupants.",
   image = "/logo.svg",
 } = Astro.props;
 
-const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | Clinical Environmental Cleaning in SWFL`;
+// Keep <title> within 60 characters: drop the suffix when it does not fit.
+const withSuffix = (primary: string, suffix: string) =>
+  `${primary} | ${suffix}`.length <= 60 ? `${primary} | ${suffix}` : primary;
+const fullTitle = title ? withSuffix(title, site.name) : withSuffix(site.name, "Clinical Environmental Cleaning in SWFL");
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
+const ogImage = new URL(image, canonical).href;
 
 const orgSchema = {
   "@context": "https://schema.org",
@@ -37,30 +43,17 @@ const orgSchema = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={image} />
+    <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Inter:wght@400;500;600;700&display=swap"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..600&family=Inter:wght@400;500;600;700&display=swap"
-      />
-    </noscript>
 
     <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
   </head>
